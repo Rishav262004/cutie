@@ -3,17 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Romantic Cake Celebration!</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <title>Our Sweet Moments</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --neon-pink: #ff66cc;
-      --neon-red: #ff3366;
-      --neon-purple: #d900ff;
-      --space-black: #0a0a1a;
-      --star-white: rgba(255, 255, 255, 0.8);
-      --romantic-glow: #ffb6c1;
+      --primary-pink: #ff6b9d;
+      --secondary-pink: #ff8fab;
+      --accent-pink: #ffa8cc;
+      --deep-black: #0a0a0a;
+      --soft-black: #1a1a1a;
+      --charcoal: #2a2a2a;
+      --white: #ffffff;
+      --glass-bg: rgba(255, 255, 255, 0.08);
+      --glass-border: rgba(255, 255, 255, 0.12);
+      --pink-glow: rgba(255, 107, 157, 0.3);
+      --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+      --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+      --shadow-large: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
     }
 
     * {
@@ -28,13 +34,122 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      background: radial-gradient(ellipse at center, #1a001a 0%, #0a0a1a 100%);
-      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, var(--deep-black) 0%, var(--soft-black) 50%, var(--charcoal) 100%);
+      font-family: 'Inter', sans-serif;
       overflow: hidden;
       position: relative;
+      color: var(--white);
     }
 
-    .stars {
+    /* Modern Photo Marquee Background */
+    .photo-marquee {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      overflow: hidden;
+    }
+
+    .photo-marquee::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, 
+        rgba(10, 10, 10, 0.85) 0%, 
+        rgba(26, 26, 26, 0.8) 50%,
+        rgba(42, 42, 42, 0.85) 100%);
+      z-index: 1;
+      backdrop-filter: blur(2px) saturate(1.1);
+    }
+
+    .marquee-row {
+      position: absolute;
+      display: flex;
+      white-space: nowrap;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
+
+    .marquee-row-1 {
+      top: 0;
+      animation: scroll-right 60s linear infinite;
+    }
+
+    .marquee-row-2 {
+      top: 25%;
+      animation: scroll-left 55s linear infinite;
+    }
+
+    .marquee-row-3 {
+      top: 50%;
+      animation: scroll-right 65s linear infinite;
+    }
+
+    .marquee-row-4 {
+      top: 75%;
+      animation: scroll-left 58s linear infinite;
+    }
+
+    .photo-item {
+      width: 320px;
+      height: 200px;
+      margin: 0 24px;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+      filter: grayscale(30%) brightness(0.6) contrast(1.1);
+      border: 1px solid rgba(255, 107, 157, 0.15);
+      box-shadow: var(--shadow-medium);
+      backdrop-filter: blur(8px);
+    }
+
+    .photo-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s ease;
+    }
+
+    .photo-item::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, 
+        rgba(255, 107, 157, 0.08) 0%, 
+        rgba(255, 139, 171, 0.06) 50%,
+        rgba(255, 168, 204, 0.08) 100%);
+      pointer-events: none;
+    }
+
+    @keyframes scroll-right {
+      0% {
+        transform: translateX(-100%);
+      }
+      100% {
+        transform: translateX(100%);
+      }
+    }
+
+    @keyframes scroll-left {
+      0% {
+        transform: translateX(100%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    /* Floating particles */
+    .particles {
       position: fixed;
       width: 100vw;
       height: 100vh;
@@ -42,48 +157,75 @@
       z-index: -1;
     }
 
-    .star {
+    .particle {
       position: absolute;
-      background: var(--star-white);
+      background: var(--pink-glow);
       border-radius: 50%;
-      animation: twinkle 2s infinite;
+      animation: float 8s ease-in-out infinite;
+      filter: blur(1px);
     }
 
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 1; }
+    @keyframes float {
+      0%, 100% { 
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.2; 
+      }
+      50% { 
+        transform: translateY(-30px) rotate(180deg);
+        opacity: 0.6; 
+      }
     }
 
     .heading {
-      font-family: 'Parisienne', cursive;
-      font-size: 4rem;
-      background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple));
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 500;
+      background: linear-gradient(135deg, var(--primary-pink) 0%, var(--accent-pink) 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
       margin-bottom: 2rem;
       text-align: center;
-      animation: titleFloat 3s ease-in-out infinite;
-      filter: drop-shadow(0 0 20px var(--romantic-glow));
+      letter-spacing: -0.02em;
+      line-height: 1.1;
       z-index: 2;
+      position: relative;
+      filter: drop-shadow(0 4px 8px rgba(255, 107, 157, 0.3));
+      animation: gentle-glow 3s ease-in-out infinite;
     }
 
-    @keyframes titleFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+    @keyframes gentle-glow {
+      0%, 100% { 
+        filter: drop-shadow(0 4px 8px rgba(255, 107, 157, 0.3));
+      }
+      50% { 
+        filter: drop-shadow(0 6px 12px rgba(255, 107, 157, 0.5));
+      }
+    }
+
+    .subtitle {
+      font-size: 1.125rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 3rem;
+      text-align: center;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      z-index: 2;
+      position: relative;
     }
 
     .cake-container {
       position: relative;
-      width: 350px;
-      height: 350px;
+      width: 400px;
+      height: 400px;
       cursor: pointer;
-      transition: transform 0.3s ease;
-      filter: drop-shadow(0 0 30px rgba(255, 105, 180, 0.5));
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 3;
+      filter: drop-shadow(var(--shadow-large));
     }
 
     .cake-container:hover {
-      transform: scale(1.05) rotate(-2deg);
+      transform: scale(1.03) translateY(-8px);
     }
 
     .cake {
@@ -97,217 +239,365 @@
     .layer {
       position: absolute;
       width: 100%;
-      border-radius: 15px;
-      box-shadow: 0 0 30px var(--romantic-glow), inset 0 0 20px rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      box-shadow: var(--shadow-medium);
       display: flex;
       justify-content: center;
-      transition: all 0.3s ease;
+      transition: all 0.4s ease;
+      overflow: hidden;
+    }
+
+    .layer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.1) 0%, 
+        rgba(255, 255, 255, 0.05) 100%);
+      border-radius: 20px;
     }
 
     .layer-1 {
-      height: 100px;
+      height: 120px;
       bottom: 0;
-      background: linear-gradient(45deg, #ff66cc, #ff3399);
+      background: linear-gradient(135deg, 
+        var(--primary-pink) 0%, 
+        var(--secondary-pink) 50%,
+        var(--accent-pink) 100%);
       z-index: 3;
+      box-shadow: 0 0 30px var(--pink-glow), var(--shadow-medium);
     }
 
     .layer-2 {
-      height: 90px;
-      bottom: 90px;
+      height: 110px;
+      bottom: 100px;
       width: 85%;
       left: 7.5%;
-      background: linear-gradient(45deg, #ff3399, #cc0099);
+      background: linear-gradient(135deg, 
+        var(--secondary-pink) 0%, 
+        var(--primary-pink) 50%,
+        var(--accent-pink) 100%);
       z-index: 2;
+      box-shadow: 0 0 25px var(--pink-glow), var(--shadow-medium);
     }
 
     .layer-3 {
-      height: 80px;
-      bottom: 170px;
+      height: 100px;
+      bottom: 190px;
       width: 70%;
       left: 15%;
-      background: linear-gradient(45deg, #cc0099, #990066);
+      background: linear-gradient(135deg, 
+        var(--accent-pink) 0%, 
+        var(--primary-pink) 50%,
+        var(--secondary-pink) 100%);
       z-index: 1;
+      box-shadow: 0 0 20px var(--pink-glow), var(--shadow-medium);
     }
 
     .frosting {
       position: absolute;
-      width: 25px;
-      height: 35px;
-      background: rgba(255, 255, 255, 0.9);
+      width: 30px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--white) 0%, rgba(255, 255, 255, 0.9) 100%);
       border-radius: 50%;
-      top: -15px;
-      filter: drop-shadow(0 0 5px white);
+      top: -20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 0 15px rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
+      z-index: 10;
     }
 
     .candle {
       position: absolute;
-      width: 25px;
-      height: 80px;
-      background: linear-gradient(to right, #fff, #ffd1e3);
-      top: -80px;
+      width: 30px;
+      height: 90px;
+      background: linear-gradient(to right, 
+        var(--white), 
+        rgba(255, 248, 220, 0.95));
+      top: -90px;
       left: 50%;
       transform: translateX(-50%);
-      border-radius: 10px;
+      border-radius: 15px;
       z-index: 10;
-      filter: drop-shadow(0 0 10px white);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
     }
 
     .flame {
       position: absolute;
-      width: 25px;
-      height: 40px;
-      background: linear-gradient(to bottom, #ff9d00, #ff5e00);
+      width: 30px;
+      height: 45px;
+      background: linear-gradient(to bottom, 
+        #fbbf24, 
+        #f59e0b, 
+        #d97706);
       border-radius: 50% 50% 20% 20%;
-      top: -35px;
-      animation: flameFloat 0.8s ease-in-out infinite;
-      filter: drop-shadow(0 0 15px #ff9d00);
+      top: -40px;
+      animation: flameFloat 1.5s ease-in-out infinite;
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.8), 0 0 40px rgba(245, 158, 11, 0.4);
+      filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.6));
     }
 
     @keyframes flameFloat {
-      0%, 100% { transform: rotate(-2deg); }
-      50% { transform: rotate(2deg) scale(1.1); }
+      0%, 100% { 
+        transform: rotate(-2deg) scale(1);
+      }
+      50% { 
+        transform: rotate(2deg) scale(1.05);
+      }
     }
-
-    .glow-particle {
+    .candle {
       position: absolute;
-      width: 10px;
-      height: 10px;
-      background: rgba(255, 255, 255, 0.6);
-      border-radius: 50%;
-      filter: blur(3px);
-      animation: particleFloat 3s linear infinite;
+      width: 30px;
+      height: 90px;
+      background: linear-gradient(to right, 
+        var(--white), 
+        rgba(255, 248, 220, 0.95));
+      top: -90px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 15px;
+      z-index: 10;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
     }
 
-    @keyframes particleFloat {
-      0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(-100px); opacity: 0; }
+    .flame {
+      position: absolute;
+      width: 30px;
+      height: 45px;
+      background: linear-gradient(to bottom, 
+        #fbbf24, 
+        #f59e0b, 
+        #d97706);
+      border-radius: 50% 50% 20% 20%;
+      top: -40px;
+      animation: flameFloat 1.5s ease-in-out infinite;
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.8), 0 0 40px rgba(245, 158, 11, 0.4);
+      filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.6));
     }
 
-    .next-page-button {
+    @keyframes flameFloat {
+      0%, 100% { 
+        transform: rotate(-2deg) scale(1);
+      }
+      50% { 
+        transform: rotate(2deg) scale(1.05);
+      }
+    }
+
+    .celebration-button {
       position: fixed;
-      bottom: 40px;
-      padding: 15px 40px;
-      font-size: 1.2rem;
-      background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple));
-      border: none;
-      border-radius: 30px;
-      color: white;
+      bottom: 60px;
+      padding: 16px 32px;
+      font-size: 1rem;
+      font-weight: 500;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 50px;
+      color: var(--white);
       cursor: pointer;
       opacity: 0;
       transform: translateY(50px);
-      transition: all 0.3s ease;
-      box-shadow: 0 0 25px var(--romantic-glow), 0 0 50px var(--neon-pink);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-medium), 0 0 20px var(--pink-glow);
       z-index: 1000;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: 2px;
+      letter-spacing: 0.025em;
     }
 
-    .next-page-button:hover {
-      transform: translateY(-5px);
-      background: linear-gradient(45deg, var(--neon-purple), var(--neon-pink));
+    .celebration-button:hover {
+      transform: translateY(-4px);
+      background: rgba(255, 107, 157, 0.15);
+      box-shadow: var(--shadow-large), 0 0 30px var(--pink-glow);
+      border-color: var(--primary-pink);
     }
 
-    .neon-border {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border: 2px solid var(--neon-pink);
-      border-radius: 15px;
-      box-shadow: inset 0 0 15px var(--neon-pink), 0 0 30px var(--neon-pink);
-      animation: borderPulse 2s infinite;
-    }
-
-    @keyframes borderPulse {
-      0%, 100% { opacity: 0.8; }
-      50% { opacity: 0.3; }
-    }
-
-    .next-page-button.show {
+    .celebration-button.show {
       opacity: 1 !important;
       transform: translateY(0) !important;
-      animation: buttonPulse 1.5s infinite;
+      animation: gentle-pulse 2s ease-in-out infinite;
     }
 
-    @keyframes buttonPulse {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-5px) scale(1.1); }
+    @keyframes gentle-pulse {
+      0%, 100% { 
+        transform: translateY(0) scale(1);
+        box-shadow: var(--shadow-medium), 0 0 20px var(--pink-glow);
+      }
+      50% { 
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: var(--shadow-large), 0 0 30px var(--pink-glow);
+      }
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .photo-item {
+        width: 240px;
+        height: 150px;
+        margin: 0 18px;
+      }
+      
+      .cake-container {
+        width: 320px;
+        height: 320px;
+      }
+      
+      .subtitle {
+        font-size: 1rem;
+        margin-bottom: 2.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .photo-item {
+        width: 200px;
+        height: 125px;
+        margin: 0 15px;
+      }
+      
+      .cake-container {
+        width: 280px;
+        height: 280px;
+      }
+      
+      .heading {
+        margin-bottom: 1.5rem;
+      }
+      
+      .subtitle {
+        margin-bottom: 2rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="stars"></div>
-  <h1 class="heading">A Romantic Cake for You 💖</h1>
+  <!-- Modern Photo Marquee Background -->
+  <div class="photo-marquee">
+    <div class="marquee-row marquee-row-1">
+      <div class="photo-item"><img src="1.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 1"></div>
+      <div class="photo-item"><img src="2.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="3.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="4.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="5.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="6.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="7.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="8.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+    </div>
+    
+    <div class="marquee-row marquee-row-2">
+          <div class="photo-item"><img src="1.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 1"></div>
+      <div class="photo-item"><img src="2.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="3.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="4.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="5.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="6.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="7.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="8.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+    </div>
+    
+    <div class="marquee-row marquee-row-3">
+          <div class="photo-item"><img src="1.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 1"></div>
+      <div class="photo-item"><img src="2.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="3.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="4.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="5.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="6.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="7.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="8.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+    </div>
+    
+    <div class="marquee-row marquee-row-4">
+          <div class="photo-item"><img src="1.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 1"></div>
+      <div class="photo-item"><img src="2.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="3.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="4.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="5.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="6.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="7.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+      <div class="photo-item"><img src="8.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Memory 2"></div>
+    </div>
+  </div>
+
+  <div class="particles"></div>
+  
+  <h1 class="heading">Our Sweet Moments</h1>
+  <p class="subtitle">Click the cake to celebrate together</p>
+  
   <div class="cake-container">
     <div class="cake">
-      <div class="neon-border"></div>
       <div class="layer layer-1">
         <div class="frosting"></div>
-        <div class="frosting" style="left: 50px"></div>
-        <div class="frosting" style="right: 50px"></div>
+        <div class="frosting" style="left: 60px"></div>
+        <div class="frosting" style="right: 60px"></div>
       </div>
       <div class="layer layer-2">
         <div class="frosting"></div>
-        <div class="frosting" style="left: 45px"></div>
-        <div class="frosting" style="right: 45px"></div>
+        <div class="frosting" style="left: 50px"></div>
+        <div class="frosting" style="right: 50px"></div>
       </div>
       <div class="layer layer-3">
         <div class="frosting"></div>
         <div class="frosting" style="left: 40px"></div>
         <div class="frosting" style="right: 40px"></div>
-        <div class="candle">
+        <div class="candle" style="left: 50%; transform: translateX(-50%);">
           <div class="flame"></div>
         </div>
+        <div class="cherry"></div>
       </div>
     </div>
   </div>
-  <button class="next-page-button">To the Surprise →</button>
+  
+  <button class="celebration-button">Continue Our Journey →</button>
 
   <script>
-    function createStars() {
-      const container = document.querySelector('.stars');
-      for (let i = 0; i < 200; i++) {
-        const star = document.createElement('div');
-        star.className = 'star';
-        star.style.width = `${Math.random() * 3}px`;
-        star.style.height = star.style.width;
-        star.style.left = `${Math.random() * 100}%`;
-        star.style.top = `${Math.random() * 100}%`;
-        star.style.animationDelay = `${Math.random() * 2}s`;
-        container.appendChild(star);
-      }
-    }
-
     function createParticles() {
-      const flame = document.querySelector('.flame');
-      setInterval(() => {
+      const container = document.querySelector('.particles');
+      for (let i = 0; i < 30; i++) {
         const particle = document.createElement('div');
-        particle.className = 'glow-particle';
-        particle.style.left = `${Math.random() * 20 - 10}px`;
-        flame.appendChild(particle);
-        setTimeout(() => particle.remove(), 3000);
-      }, 300);
+        particle.className = 'particle';
+        particle.style.width = `${Math.random() * 4 + 2}px`;
+        particle.style.height = particle.style.width;
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        particle.style.animationDelay = `${Math.random() * 8}s`;
+        particle.style.animationDuration = `${Math.random() * 4 + 6}s`;
+        container.appendChild(particle);
+      }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
       const cake = document.querySelector('.cake-container');
-      const nextButton = document.querySelector('.next-page-button');
+      const celebrationButton = document.querySelector('.celebration-button');
       let celebrationStarted = false;
 
       cake.addEventListener('click', () => {
         if (celebrationStarted) return;
         celebrationStarted = true;
 
+        // Add celebration effects
+        cake.style.animation = 'gentle-pulse 0.6s ease-in-out';
+        
         setTimeout(() => {
-          nextButton.classList.add('show');
-        }, 2000);
+          celebrationButton.classList.add('show');
+        }, 1500);
       });
 
-      nextButton.addEventListener('click', () => {
-        window.location.href = 'birthday-main.html';
+      celebrationButton.addEventListener('click', () => {
+        // Add smooth transition effect
+        document.body.style.transition = 'opacity 0.5s ease-in-out';
+        document.body.style.opacity = '0';
+        
+        setTimeout(() => {
+          window.location.href = 'birthday-main.html';
+        }, 500);
       });
 
-      createStars();
       createParticles();
     });
   </script>

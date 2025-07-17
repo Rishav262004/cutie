@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Happy Birthday</title>
+  <title>Happy Birthday Tara</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Pacifico&display=swap" rel="stylesheet">
   <style>
     * {
@@ -187,7 +187,7 @@
   </div>
 
   <form id="login-form">
-    <h2>Happy Birthday 🎉</h2>
+    <h2>Happy Birthday Tara 🎉</h2>
     <input type="text" id="love-name" placeholder="Enter Your Name" />
     <button id="submit-btn">Celebrate!</button>
   </form>
@@ -195,14 +195,14 @@
   <script>
     document.getElementById('submit-btn').addEventListener('click', function(event) {
       event.preventDefault();
-      const nameInput = document.getElementById('love-name').value.trim();
+      const nameInput = document.getElementById('love-name').value.trim().toLowerCase();
 
-      if (nameInput.toLowerCase() === "nisha") {
+      if (nameInput === "tara") {
         createSprinkle();
-        alert("Welcome to the Cake Party, Nisha! 🎂");
+        alert("Welcome to the Cake Party, Tara 🎂");
         window.location.href = "main.html";
       } else {
-        alert("Oops! Only Nisha is invited today! 🎈");
+        alert("Oops! Only Tara is invited today! 🎈");
       }
     });
 
