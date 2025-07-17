@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle, #fff0f5, #ffe4e1, #ffb6c1, #ff69b4);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .cake-container {
+      position: absolute;
+      top: 52%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 450px;
+      height: 320px;
+      filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
+      z-index: 1;
+    }
+
+    .cake {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(145deg, #f4a460, #d2691e);
+      border-radius: 25px 25px 50px 50px;
+      position: relative;
+      animation: cakeGlow 2s infinite alternate;
+    }
+
+    .cake::before {
+      content: '';
+      position: absolute;
+      top: -25px;
+      left: 40px;
+      right: 40px;
+      height: 60px;
+      background: linear-gradient(135deg, #ff69b4, #ff1493);
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(255, 105, 180, 0.5);
+    }
+
+    .cake::after {
+      content: '';
+      position: absolute;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 60px;
+      background: #e60000;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .cherry {
+      position: absolute;
+      top: -75px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 38px;
+      height: 38px;
+      background: #ff0000;
+      border-radius: 50%;
+      box-shadow: 0 8px 20px rgba(255, 0, 0, 0.5);
+    }
+
+    .cherry::after {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 10px;
+      width: 14px;
+      height: 22px;
+      background: #006400;
+      border-radius: 8px;
+      transform: rotate(45deg);
+    }
+
+    @keyframes cakeGlow {
+      from { filter: drop-shadow(0 0 15px rgba(255, 182, 193, 0.5)); }
+      to   { filter: drop-shadow(0 0 30px rgba(255, 105, 180, 0.9)); }
+    }
+
+    #login-form {
+      position: relative;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 35px;
+      border-radius: 25px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+      width: 370px;
+      text-align: center;
+    }
+
+    #login-form:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.015);
+    }
+
+    h2 {
+      font-family: 'Pacifico', cursive;
+      font-size: 34px;
+      color: #fff;
+      margin-bottom: 25px;
+      text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 18px;
+      font-size: 16px;
+      border-radius: 30px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    input:focus {
+      border-color: #ff69b4;
+      box-shadow: 0 0 15px rgba(255, 105, 180, 0.6);
+      background: rgba(255, 255, 255, 0.2);
+      outline: none;
+    }
+
+    button {
+      background: linear-gradient(135deg, #ff69b4, #ff8c00);
+      color: white;
+      border: none;
+      padding: 14px 30px;
+      font-size: 18px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: 0.3s ease;
+      box-shadow: 0 8px 20px rgba(255, 105, 180, 0.5);
+    }
+
+    button:hover {
+      transform: scale(1.07);
+      box-shadow: 0 12px 30px rgba(255, 105, 180, 0.7);
+    }
+
+    .sprinkle {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      animation: float 4s infinite ease-in-out;
+      z-index: 0;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      50% { transform: translateY(-100px) rotate(180deg); opacity: 0.7; }
+      100% { transform: translateY(0) rotate(360deg); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cake-container">
+    <div class="cake"></div>
+    <div class="cherry"></div>
+  </div>
+
+  <form id="login-form">
+    <h2>Happy Birthday 🎉</h2>
+    <input type="text" id="love-name" placeholder="Enter Your Name" />
+    <button id="submit-btn">Celebrate!</button>
+  </form>
+
+  <script>
+    document.getElementById('submit-btn').addEventListener('click', function(event) {
+      event.preventDefault();
+      const nameInput = document.getElementById('love-name').value.trim();
+
+      if (nameInput.toLowerCase() === "nisha") {
+        createSprinkle();
+        alert("Welcome to the Cake Party, Nisha! 🎂");
+        window.location.href = "main.html";
+      } else {
+        alert("Oops! Only Nisha is invited today! 🎈");
+      }
+    });
+
+    function createSprinkle() {
+      const sprinkle = document.createElement("div");
+      sprinkle.classList.add("sprinkle");
+      sprinkle.style.left = Math.random() * 100 + "vw";
+      sprinkle.style.top = Math.random() * 100 + "vh";
+      sprinkle.style.background = `hsl(${Math.random() * 360}, 80%, 70%)`;
+      sprinkle.style.animationDuration = (Math.random() * 2 + 2) + "s";
+      document.body.appendChild(sprinkle);
+      setTimeout(() => sprinkle.remove(), 5000);
+    }
+
+    setInterval(createSprinkle, 250);
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Magic Birthday Book</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .star, .ballon, .cat {
+      position: absolute;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .star {
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.3;
+      animation: pulse 3s infinite;
+    }
+
+    .ballon {
+      top: 5%;
+      right: 10%;
+      width: 100px;
+      animation: float 5s ease-in-out infinite;
+    }
+
+    .cat {
+      bottom: 10px;
+      left: 20px;
+      width: 100px;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .container {
+      perspective: 1200px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .birthdayCard {
+      width: 320px;
+      height: 480px;
+      border-radius: 15px;
+      transform-style: preserve-3d;
+      transition: transform 0.8s ease;
+      cursor: pointer;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+      position: relative;
+    }
+
+    .birthdayCard:hover {
+      transform: rotateY(180deg);
+    }
+
+    .cardFront,
+    .cardInside {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+      backface-visibility: hidden;
+      background: linear-gradient(135deg, #fff0f5, #ffe3e3);
+      border: 4px solid #ff6b81;
+      border-radius: 15px;
+      box-shadow: inset 0 0 20px rgba(255, 107, 129, 0.15);
+    }
+
+    .cardInside {
+      transform: rotateY(180deg);
+    }
+
+    .cardFront::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 15px;
+      height: 100%;
+      background: linear-gradient(to right, #ff6b81, #fcb69f);
+      border-top-left-radius: 15px;
+      border-bottom-left-radius: 15px;
+      box-shadow: 5px 0 15px rgba(255,107,129,0.2);
+    }
+
+    .front-text {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .happy, .bday, .toyou {
+      margin: 10px 0;
+      color: #ff6b81;
+      text-shadow: 1px 1px 2px #fff;
+    }
+
+    .happy {
+      font-size: 2em;
+    }
+
+    .bday {
+      font-size: 3em;
+      font-family: 'Dancing Script', cursive;
+      background: linear-gradient(45deg, #ff6b81, #ffa07a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: glow 2s infinite ease-in-out;
+    }
+
+    .toyou {
+      font-size: 1.4em;
+    }
+
+    .plate {
+      margin: 25px auto;
+      position: relative;
+      width: 120px;
+      height: 60px;
+    }
+
+    .cake {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, #ff6b81, #ffa07a);
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(255, 107, 129, 0.3);
+    }
+
+    .flame {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px;
+      height: 30px;
+      background: radial-gradient(circle, #ffeb3b 0%, #f39c12 70%);
+      border-radius: 50% 50% 40% 40%;
+      animation: flicker 0.15s infinite;
+    }
+
+    .img {
+      text-align: center;
+      position: relative;
+    }
+
+    .bdyboy {
+      width: 120px;
+      height: auto;
+      border-radius: 50%;
+      border: 4px solid #ff6b81;
+      margin: 15px auto;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      transition: transform 0.3s;
+    }
+
+    .bdyboy:hover {
+      transform: scale(1.05);
+    }
+
+    .confetti {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: auto;
+      z-index: -1;
+      opacity: 0.4;
+    }
+
+    .wishes {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 0.95em;
+      line-height: 1.5;
+      color: #34495e;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      margin-top: 10px;
+    }
+
+    .name {
+      text-align: right;
+      font-weight: bold;
+      color: #ff6b81;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes flicker {
+      0%, 100% { transform: translateX(-50%) rotate(2deg); }
+      50% { transform: translateX(-50%) rotate(-2deg); }
+    }
+
+    @keyframes glow {
+      0%, 100% { filter: drop-shadow(0 0 10px #ff6b81); }
+      50% { filter: drop-shadow(0 0 20px #ffa07a); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 0.4; }
+    }
+
+    @media (max-width: 500px) {
+      .birthdayCard {
+        width: 90vw;
+        height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <img src="ZUiY.gif" alt="stars" class="star">
+  <img src="5l03.gif" alt="ballon" class="ballon">
+
+  <div class="container">
+    <div class="birthdayCard">
+      <div class="cardFront">
+        <div class="front-text">
+          <h3 class="happy">HAPPY</h3>
+          <h2 class="bday">BIRTHDAY</h2>
+          <h3 class="toyou">to you!</h3>
+        </div>
+        <div class="plate">
+          <div class="cake"></div>
+          <div class="flame"></div>
+        </div>
+      </div>
+
+      <div class="cardInside">
+        <div class="img">
+          <img src="cutie.jpg" alt="cutieeee" class="bdyboy" />
+          <img src="6ob.gif" alt="confetti" class="confetti">
+        </div>
+        <div class="front-text">
+          <h3 class="happy">HAPPY</h3>
+          <h2 class="bday">BIRTHDAY</h2>
+          <h3 class="toyou">to you!</h3>
+        </div>
+        <div class="wishes">
+          <p>Dear cutieeee, My Love ❤️</p>
+          <p>Happy Birthday!! 🎉🎂 I hope your day is filled with joy, love, cake, and magic. You deserve all the smiles this world can offer!</p>
+          <p class="name">With love,</p>
+          <p class="name">Your Rishav 💖</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <img src="cat.gif" alt="cat" class="cat">
+
+</body>
+</html>
